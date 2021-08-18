@@ -1,0 +1,1 @@
+" Atividade feita usando a ferramenta Spring Tools 4 for Eclipse, banco de dados H2. Para a realiza‡Æo dos testes da API foi utilizada a ferramenta Postman e para a documenta‡Æo da mesma o site https://editor.swagger.io" 
