@@ -1,0 +1,77 @@
+package com.dac.marina.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.dac.marina.model.Autor;
+import com.dac.marina.model.Volume;
+import com.dac.marina.repository.AutorRepository;
+
+@RestController
+@RequestMapping("/api/v1")
+public class AutorController {
+	
+	@Autowired
+	private AutorRepository autorRepository;
+	
+	@GetMapping("/autores")
+	public List<Autor> listaTodos() {
+		return autorRepository.findAll();
+	}
+	
+	@GetMapping("/autores/{id}")
+	public ResponseEntity<Autor> getVolumeById(@PathVariable(value = "id") Long autorId)
+	 throws ResourceNotFoundException {
+		Autor autor = autorRepository.findById(autorId)
+	      .orElseThrow(() -> new ResourceNotFoundException());
+	    return ResponseEntity.ok().body(autor);
+	}
+	
+	@PostMapping("/autores")
+	public Autor criaVolume(@Validated @RequestBody Autor autor) {
+	    return autorRepository.save(autor);
+	}
+	
+	@PutMapping("/autores/{id}")
+	public ResponseEntity<Autor> atualizaVolume(@PathVariable(value = "id") Long autorId,
+	  @Validated @RequestBody Autor AutorItem) throws ResourceNotFoundException {
+	    Autor autor = autorRepository.findById(autorId)
+	    .orElseThrow(() -> new ResourceNotFoundException());
+
+	    volume.setSigla_evento(volumeItem.getSigla_evento());
+	    volume.setNum_edicao(volumeItem.getNum_edicao());
+	    volume.setCidade(volumeItem.getCidade());
+	    volume.setData_inicio(volumeItem.getData_inicio());
+	    volume.setDescr_port(volumeItem.getDescr_port());
+	    volume.setDescr_ingles(volumeItem.getDescr_ingles());
+
+	    final Volume volumeAtualizado = autorRepository.save(volume);
+	    return ResponseEntity.ok(volumeAtualizado);
+	}
+	
+	@DeleteMapping("/autores/{id}")
+	public Map<String, Boolean> deleteVolume(@PathVariable(value = "id") Long autorId)
+	  throws ResourceNotFoundException {
+	    Volume volume = autorRepository.findById(autorId)
+	      .orElseThrow(() -> new ResourceNotFoundException());
+
+	    autorRepository.delete(volume);
+	    Map<String, Boolean> response = new HashMap<>();
+	    response.put("deleted", Boolean.TRUE);
+	    return response;
+	}
+
+}

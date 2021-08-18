@@ -1,0 +1,5 @@
+package com.dac.marina.controller;
+
+public class ResourceNotFoundException(String mensagem) extends Exception {
+
+}
